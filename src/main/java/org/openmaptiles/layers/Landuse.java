@@ -55,6 +55,7 @@ import java.util.Set;
 import org.openmaptiles.OpenMapTilesProfile;
 import org.openmaptiles.generated.OpenMapTilesSchema;
 import org.openmaptiles.generated.Tables;
+import org.openmaptiles.util.FeatureId;
 
 /**
  * Defines the logic for generating map elements for man-made land use polygons like cemeteries, zoos, and hospitals in
@@ -110,6 +111,7 @@ public class Landuse implements
         clazz = FieldValues.CLASS_CEMETERY;
       }
       var feature = features.polygon(LAYER_NAME).setBufferPixels(BUFFER_SIZE)
+        .setId(FeatureId.create(element.source()))  // Many-to-one
         .setAttr(Fields.CLASS, clazz)
         .setMinZoom(Z6_CLASSES.contains(clazz) ? 6 : 9);
       if (FieldValues.CLASS_RESIDENTIAL.equals(clazz)) {

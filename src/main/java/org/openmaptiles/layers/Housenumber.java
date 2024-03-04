@@ -53,6 +53,7 @@ import java.util.stream.Collectors;
 import org.openmaptiles.generated.OpenMapTilesSchema;
 import org.openmaptiles.generated.Tables;
 import org.openmaptiles.util.Utils;
+import org.openmaptiles.util.FeatureId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -134,6 +135,7 @@ public class Housenumber implements
 
     features.centroidIfConvex(LAYER_NAME)
       .setBufferPixels(BUFFER_SIZE)
+      .setId(FeatureId.create(element.source()))  // The use of MultiPoint features creates a many-to-one mapping
       .setAttr(Fields.HOUSENUMBER, housenumber)
       .setAttr(TEMP_PARTITION, partition)
       .setAttr(TEMP_HAS_NAME, hasName)

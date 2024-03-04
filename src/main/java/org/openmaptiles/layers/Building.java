@@ -56,6 +56,7 @@ import java.util.Map;
 import org.openmaptiles.OpenMapTilesProfile;
 import org.openmaptiles.generated.OpenMapTilesSchema;
 import org.openmaptiles.generated.Tables;
+import org.openmaptiles.util.FeatureId;
 
 /**
  * Defines the logic for generating map elements for buildings in the {@code building} layer from source features.
@@ -162,6 +163,7 @@ public class Building implements
       var feature = features.polygon(LAYER_NAME).setBufferPixels(BUFFER_SIZE)
         .setMinZoom(13)
         .setMinPixelSize(2)
+        .setId(FeatureId.create(element.source()))
         .setAttrWithMinzoom(Fields.RENDER_HEIGHT, renderHeight, 14)
         .setAttrWithMinzoom(Fields.RENDER_MIN_HEIGHT, renderMinHeight, 14)
         .setAttrWithMinzoom(Fields.COLOUR, color, 14)

@@ -71,6 +71,7 @@ import org.openmaptiles.OpenMapTilesProfile;
 import org.openmaptiles.generated.OpenMapTilesSchema;
 import org.openmaptiles.generated.Tables;
 import org.openmaptiles.util.OmtLanguageUtils;
+import org.openmaptiles.util.FeatureId;
 
 /**
  * Defines the logic for generating label points for populated places like continents, countries, cities, and towns in
@@ -200,6 +201,7 @@ public class Place implements
   public void process(Tables.OsmContinentPoint element, FeatureCollector features) {
     if (!nullOrEmpty(element.name())) {
       features.point(LAYER_NAME).setBufferPixels(BUFFER_SIZE)
+        .setId(FeatureId.create(element.source()))
         .putAttrs(OmtLanguageUtils.getNames(element.source().tags(), translations))
         .setAttr(Fields.CLASS, FieldValues.CLASS_CONTINENT)
         .setAttr(Fields.RANK, 1)
@@ -238,6 +240,7 @@ public class Place implements
       rank = Math.clamp(rank, 1, 6);
 
       features.point(LAYER_NAME).setBufferPixels(BUFFER_SIZE)
+        .setId(FeatureId.create(element.source()))
         .putAttrs(names)
         .setAttr(Fields.ISO_A2, isoA2)
         .setAttr(Fields.CLASS, FieldValues.CLASS_COUNTRY)
@@ -264,6 +267,7 @@ public class Place implements
         int rank = Math.clamp(state.rank, 1, 6);
 
         features.point(LAYER_NAME).setBufferPixels(BUFFER_SIZE)
+          .setId(FeatureId.create(element.source()))
           .putAttrs(names)
           .setAttr(Fields.CLASS, element.place())
           .setAttr(Fields.RANK, rank)
@@ -286,6 +290,7 @@ public class Place implements
       int minzoom = rank <= 3 ? 8 : rank <= 4 ? 9 : 10;
 
       features.pointOnSurface(LAYER_NAME).setBufferPixels(BUFFER_SIZE)
+        .setId(FeatureId.create(element.source()))
         .putAttrs(OmtLanguageUtils.getNames(element.source().tags(), translations))
         .setAttr(Fields.CLASS, "island")
         .setAttr(Fields.RANK, rank)
@@ -300,6 +305,7 @@ public class Place implements
   @Override
   public void process(Tables.OsmIslandPoint element, FeatureCollector features) {
     features.point(LAYER_NAME).setBufferPixels(BUFFER_SIZE)
+      .setId(FeatureId.create(element.source()))
       .putAttrs(OmtLanguageUtils.getNames(element.source().tags(), translations))
       .setAttr(Fields.CLASS, "island")
       .setAttr(Fields.RANK, 7)
@@ -347,6 +353,7 @@ public class Place implements
       placeType.ordinal() <= PlaceType.SUBURB.ordinal() ? 11 : 14;
 
     var feature = features.point(LAYER_NAME).setBufferPixels(BUFFER_SIZE)
+      .setId(FeatureId.create(element.source()))
       .putAttrs(OmtLanguageUtils.getNames(element.source().tags(), translations))
       .setAttr(Fields.CLASS, element.place())
       .setAttr(Fields.RANK, rank)

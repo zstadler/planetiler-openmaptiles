@@ -41,6 +41,7 @@ import com.onthegomap.planetiler.stats.Stats;
 import com.onthegomap.planetiler.util.Translations;
 import org.openmaptiles.generated.OpenMapTilesSchema;
 import org.openmaptiles.generated.Tables;
+import org.openmaptiles.util.FeatureId;
 
 /**
  * Defines the logic for generating map elements in the {@code aeroway} layer from source features.
@@ -61,6 +62,7 @@ public class Aeroway implements
     features.polygon(LAYER_NAME)
       .setMinZoom(10)
       .setMinPixelSize(2)
+      .setId(FeatureId.create(element.source()))
       .setAttr(Fields.CLASS, element.aeroway())
       .setAttr(Fields.REF, element.ref());
   }
@@ -69,6 +71,7 @@ public class Aeroway implements
   public void process(Tables.OsmAerowayLinestring element, FeatureCollector features) {
     features.line(LAYER_NAME)
       .setMinZoom(10)
+      .setId(FeatureId.create(element.source()))
       .setAttr(Fields.CLASS, element.aeroway())
       .setAttr(Fields.REF, element.ref());
   }
@@ -77,6 +80,7 @@ public class Aeroway implements
   public void process(Tables.OsmAerowayPoint element, FeatureCollector features) {
     features.point(LAYER_NAME)
       .setMinZoom(14)
+      .setId(FeatureId.create(element.source()))
       .setAttr(Fields.CLASS, element.aeroway())
       .setAttr(Fields.REF, element.ref());
   }

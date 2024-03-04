@@ -79,6 +79,7 @@ import org.locationtech.jts.operation.linemerge.LineMerger;
 import org.locationtech.jts.operation.polygonize.Polygonizer;
 import org.openmaptiles.OpenMapTilesProfile;
 import org.openmaptiles.generated.OpenMapTilesSchema;
+import org.openmaptiles.util.FeatureId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -269,7 +270,7 @@ public class Boundary implements
           // save for later
           try {
             CountryBoundaryComponent component = new CountryBoundaryComponent(
-              feature.id(),
+              FeatureId.create(feature),
               minAdminLevel,
               disputed,
               maritime,
@@ -294,6 +295,7 @@ public class Boundary implements
           }
         } else {
           features.line(LAYER_NAME).setBufferPixels(BUFFER_SIZE)
+            .setId(FeatureId.create(feature))
             .setAttr(Fields.ADMIN_LEVEL, minAdminLevel)
             .setAttr(Fields.DISPUTED, disputed ? 1 : 0)
             .setAttr(Fields.MARITIME, maritime ? 1 : 0)

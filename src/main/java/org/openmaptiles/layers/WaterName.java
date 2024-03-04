@@ -56,6 +56,7 @@ import org.openmaptiles.OpenMapTilesProfile;
 import org.openmaptiles.generated.OpenMapTilesSchema;
 import org.openmaptiles.generated.Tables;
 import org.openmaptiles.util.OmtLanguageUtils;
+import org.openmaptiles.util.FeatureId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -179,6 +180,7 @@ public class WaterName implements
       }
       features.point(LAYER_NAME)
         .setBufferPixels(BUFFER_SIZE)
+        .setId(FeatureId.create(element.source()))
         .putAttrs(OmtLanguageUtils.getNames(source.tags(), translations))
         .setAttr(Fields.CLASS, clazz)
         .setAttr(Fields.INTERMITTENT, element.isIntermittent() ? 1 : 0)
@@ -213,6 +215,7 @@ public class WaterName implements
           .setMinPixelSize(128); // tiles are 256x256, so 128x128 is 1/4 of a tile
       }
       feature
+        .setId(FeatureId.create(element.source()))
         .setAttr(Fields.CLASS, clazz)
         .setBufferPixels(BUFFER_SIZE)
         .putAttrs(OmtLanguageUtils.getNames(element.source().tags(), translations))

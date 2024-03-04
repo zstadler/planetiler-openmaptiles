@@ -57,6 +57,7 @@ import org.openmaptiles.OpenMapTilesProfile;
 import org.openmaptiles.generated.OpenMapTilesSchema;
 import org.openmaptiles.generated.Tables;
 import org.openmaptiles.util.OmtLanguageUtils;
+import org.openmaptiles.util.FeatureId;
 
 /**
  * Defines the logic for generating map elements for designated parks polygons and their label points in the {@code
@@ -108,6 +109,7 @@ public class Park implements
 
     // park shape
     var outline = features.polygon(LAYER_NAME).setBufferPixels(BUFFER_SIZE)
+      .setId(FeatureId.create(element.source()))
       .setAttrWithMinzoom(Fields.CLASS, clazz, 5)
       .setMinPixelSize(2)
       .setMinZoom(4);

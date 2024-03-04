@@ -66,6 +66,7 @@ import org.openmaptiles.OpenMapTilesProfile;
 import org.openmaptiles.generated.OpenMapTilesSchema;
 import org.openmaptiles.generated.Tables;
 import org.openmaptiles.util.OmtLanguageUtils;
+import org.openmaptiles.util.FeatureId;
 
 /**
  * Defines the logic for generating map elements for road, shipway, rail, and path names in the {@code
@@ -197,6 +198,7 @@ public class TransportationName implements
 
         features.point(LAYER_NAME)
           .setBufferPixels(BUFFER_SIZE)
+          .setId(FeatureId.create(element.source()))
           .putAttrs(OmtLanguageUtils.getNames(element.source().tags(), translations))
           .setAttr(Fields.REF, ref)
           .setAttr(Fields.REF_LENGTH, ref != null ? ref.length() : null)
@@ -257,6 +259,7 @@ public class TransportationName implements
       .setBufferPixels(BUFFER_SIZE)
       .setBufferPixelOverrides(MIN_LENGTH)
       // TODO abbreviate road names - can't port osml10n because it is AGPL
+      .setId(FeatureId.create(element.source()))
       .putAttrs(OmtLanguageUtils.getNames(element.source().tags(), translations))
       .setAttr(Fields.REF, ref)
       .setAttr(Fields.REF_LENGTH, ref != null ? ref.length() : null)
@@ -309,6 +312,7 @@ public class TransportationName implements
       features.line(LAYER_NAME)
         .setBufferPixels(BUFFER_SIZE)
         .setBufferPixelOverrides(MIN_LENGTH)
+        .setId(FeatureId.create(element.source()))
         .putAttrs(OmtLanguageUtils.getNames(element.source().tags(), translations))
         .setAttr(Fields.CLASS, "aerialway")
         .setAttr(Fields.SUBCLASS, element.aerialway())
@@ -324,6 +328,7 @@ public class TransportationName implements
       features.line(LAYER_NAME)
         .setBufferPixels(BUFFER_SIZE)
         .setBufferPixelOverrides(MIN_LENGTH)
+        .setId(FeatureId.create(element.source()))
         .putAttrs(OmtLanguageUtils.getNames(element.source().tags(), translations))
         .setAttr(Fields.CLASS, element.shipway())
         .setMinPixelSize(0)

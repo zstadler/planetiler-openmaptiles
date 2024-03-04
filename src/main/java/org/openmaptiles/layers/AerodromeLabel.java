@@ -47,6 +47,7 @@ import org.openmaptiles.generated.OpenMapTilesSchema;
 import org.openmaptiles.generated.Tables;
 import org.openmaptiles.util.OmtLanguageUtils;
 import org.openmaptiles.util.Utils;
+import org.openmaptiles.util.FeatureId;
 
 /**
  * Defines the logic for generating map elements in the {@code aerodrome_label} layer from source features.
@@ -74,6 +75,7 @@ public class AerodromeLabel implements
     features.centroid(LAYER_NAME)
       .setBufferPixels(BUFFER_SIZE)
       .setMinZoom(important ? 8 : 10)
+      .setId(FeatureId.create(element.source()))
       .putAttrs(OmtLanguageUtils.getNames(element.source().tags(), translations))
       .putAttrs(Utils.elevationTags(element.ele()))
       .setAttr(Fields.IATA, nullIfEmpty(element.iata()))

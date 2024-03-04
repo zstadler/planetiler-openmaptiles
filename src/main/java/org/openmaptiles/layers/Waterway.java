@@ -59,6 +59,7 @@ import org.openmaptiles.generated.OpenMapTilesSchema;
 import org.openmaptiles.generated.Tables;
 import org.openmaptiles.util.OmtLanguageUtils;
 import org.openmaptiles.util.Utils;
+import org.openmaptiles.util.FeatureId;
 
 /**
  * Defines the logic for generating river map elements in the {@code waterway} layer from source features.
@@ -170,6 +171,7 @@ public class Waterway implements
             e.log(stats, "waterway_decode", "Unable to get waterway length for " + feature.id());
           }
           features.line(LAYER_NAME)
+	          .setId(FeatureId.create(feature))
             .setAttr(TEMP_REL_ID_ADDR, relId)
             .setBufferPixels(BUFFER_SIZE)
             .setAttr(Fields.CLASS, FieldValues.CLASS_RIVER)
@@ -191,6 +193,7 @@ public class Waterway implements
     int minzoom = important ? 9 : CLASS_MINZOOM.getOrDefault(element.waterway(), 14);
     features.line(LAYER_NAME)
       .setBufferPixels(BUFFER_SIZE)
+      .setId(FeatureId.create(element.source()))
       .setAttr(Fields.CLASS, element.waterway())
       .putAttrs(OmtLanguageUtils.getNames(element.source().tags(), translations))
       .setMinZoom(minzoom)

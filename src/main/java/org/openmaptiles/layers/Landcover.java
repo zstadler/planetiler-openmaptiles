@@ -52,6 +52,7 @@ import java.util.Set;
 import org.openmaptiles.OpenMapTilesProfile;
 import org.openmaptiles.generated.OpenMapTilesSchema;
 import org.openmaptiles.generated.Tables;
+import org.openmaptiles.util.FeatureId;
 
 /**
  * Defines the logic for generating map elements for natural land cover polygons like ice, sand, and forest in the
@@ -127,6 +128,7 @@ public class Landcover implements
         .setMinPixelSizeOverrides(MIN_PIXEL_SIZE_THRESHOLDS)
         // default is 0.1, this helps reduce size of some heavy z7-10 tiles
         .setPixelToleranceBelowZoom(10, 0.25)
+        .setId(FeatureId.create(element.source()))
         .setAttr(Fields.CLASS, clazz)
         .setAttr(Fields.SUBCLASS, subclass)
         .setNumPointsAttr(TEMP_NUM_POINTS_ATTR)

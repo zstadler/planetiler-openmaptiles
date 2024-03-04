@@ -50,6 +50,7 @@ import org.openmaptiles.OpenMapTilesProfile;
 import org.openmaptiles.generated.OpenMapTilesSchema;
 import org.openmaptiles.generated.Tables;
 import org.openmaptiles.util.Utils;
+import org.openmaptiles.util.FeatureId;
 
 /**
  * Defines the logic for generating map elements for oceans and lakes in the {@code water} layer from source features.
@@ -105,6 +106,7 @@ public class Water implements
   public void processOsmWater(SourceFeature feature, FeatureCollector features) {
     features.polygon(LAYER_NAME)
       .setBufferPixels(BUFFER_SIZE)
+      .setId(FeatureId.create(feature))
       .setAttr(Fields.CLASS, FieldValues.CLASS_OCEAN)
       .setMinZoom(6);
   }
@@ -117,6 +119,7 @@ public class Water implements
         .setBufferPixels(BUFFER_SIZE)
         .setMinPixelSizeBelowZoom(11, 2)
         .setMinZoom(6)
+        .setId(FeatureId.create(element.source()))
         .setAttr(Fields.ID, element.source().id())
         .setAttr(Fields.INTERMITTENT, element.isIntermittent() ? 1 : 0)
         .setAttrWithMinzoom(Fields.BRUNNEL, Utils.brunnel(element.isBridge(), element.isTunnel()), 12)

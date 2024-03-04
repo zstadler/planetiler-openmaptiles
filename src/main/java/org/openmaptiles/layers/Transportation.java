@@ -74,6 +74,7 @@ import org.locationtech.jts.geom.prep.PreparedGeometryFactory;
 import org.openmaptiles.OpenMapTilesProfile;
 import org.openmaptiles.generated.OpenMapTilesSchema;
 import org.openmaptiles.generated.Tables;
+import org.openmaptiles.util.FeatureId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -438,6 +439,7 @@ public class Transportation implements
 
       FeatureCollector.Feature feature = features.line(LAYER_NAME).setBufferPixels(BUFFER_SIZE)
         // main attributes at all zoom levels (used for grouping <= z8)
+        .setId(FeatureId.create(element.source()))
         .setAttr(Fields.CLASS, highwayClass)
         .setAttr(Fields.SUBCLASS, highwaySubclass(highwayClass, element.publicTransport(), highway))
         .setAttr(Fields.NETWORK, networkType != null ? networkType.name : null)
@@ -545,6 +547,7 @@ public class Transportation implements
         minzoom = 14;
       }
       features.line(LAYER_NAME).setBufferPixels(BUFFER_SIZE)
+        .setId(FeatureId.create(element.source()))
         .setAttr(Fields.CLASS, clazz)
         .setAttr(Fields.SUBCLASS, railway)
         .setAttr(Fields.SERVICE, service(service))
@@ -560,6 +563,7 @@ public class Transportation implements
   @Override
   public void process(Tables.OsmAerialwayLinestring element, FeatureCollector features) {
     features.line(LAYER_NAME).setBufferPixels(BUFFER_SIZE)
+      .setId(FeatureId.create(element.source()))
       .setAttr(Fields.CLASS, "aerialway")
       .setAttr(Fields.SUBCLASS, element.aerialway())
       .setAttr(Fields.SERVICE, service(element.service()))
@@ -575,6 +579,7 @@ public class Transportation implements
   @Override
   public void process(Tables.OsmShipwayLinestring element, FeatureCollector features) {
     features.line(LAYER_NAME).setBufferPixels(BUFFER_SIZE)
+      .setId(FeatureId.create(element.source()))
       .setAttr(Fields.CLASS, element.shipway()) // "ferry"
       // no subclass
       .setAttr(Fields.SERVICE, service(element.service()))
@@ -597,6 +602,7 @@ public class Transportation implements
       String highwayClass = highwayClass(element.highway(), element.publicTransport(), null, element.manMade());
       if (highwayClass != null) {
         features.polygon(LAYER_NAME).setBufferPixels(BUFFER_SIZE)
+          .setId(FeatureId.create(element.source()))  // many-to-one
           .setAttr(Fields.CLASS, highwayClass)
           .setAttr(Fields.SUBCLASS, highwaySubclass(highwayClass, element.publicTransport(), element.highway()))
           .setAttr(Fields.BRUNNEL, brunnel("bridge".equals(manMade), false, false))
